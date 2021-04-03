@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import RealmSwift
 
 class CategoryTableViewController: UITableViewController {
+    let realm = try! Realm()
     
     var categoryArray = [Category]()
     
@@ -29,7 +31,11 @@ class CategoryTableViewController: UITableViewController {
         // create action to alert
         // runs when user click "Add Category"
         let action = UIAlertAction(title: "Add Category", style: .default) { (action) in
+            let newCategory = Category()
+            newCategory.name = textField.text!
             
+            self.categoryArray.append(newCategory)
+            self.save(category: newCategory)
             
         }
         
@@ -89,8 +95,16 @@ class CategoryTableViewController: UITableViewController {
        
     }
     
-    func safeCategories() {
+    func save(category: Category) {
+        do {
+            try realm.write {
+                realm.add(category)
+            }
+        } catch {
+            print("Error saving category \(error)")
+        }
         
+        tableView.reloadData()
     }
     
 }
