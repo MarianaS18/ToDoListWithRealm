@@ -6,9 +6,14 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ToDoListViewController: UITableViewController {
-    var itemArray = [Item]()
+    
+    var toDoItems: Results<Item>?
+    
+    // creates a new "database" localy
+    let realm = try! Realm()
     
     var selectedCategory: Category? {
         // did set runs when selected category gets set with a value
@@ -26,19 +31,24 @@ class ToDoListViewController: UITableViewController {
     
     // number of cells in the table view
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemArray.count
+        return toDoItems?.count ?? 1
     }
     
     // create a cell and return it to the table view
     // method calls for every cell
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = itemArray[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
-        cell.textLabel?.text = item.title
         
-        // add or remove a checkmark to celected cell
-        cell.accessoryType = item.done ? .checkmark : .none
+        if let item = toDoItems?[indexPath.row] {
+            cell.textLabel?.text = item.title
+            
+            // add or remove a checkmark to celected cell
+            cell.accessoryType = item.done ? .checkmark : .none
+        } else {
+            cell.textLabel?.text = "No Items Added"
+        }
+        
         
         return cell
     }
@@ -49,16 +59,8 @@ class ToDoListViewController: UITableViewController {
     // works with selected cell
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        // remove an item from database
-        // context.delete(itemArray[indexPath.row])
-        // removes an item from array whitch is used to load up the tableview data source
-        // itemArray.remove(at: indexPath.row)
-        
         // checks done property
-        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
-        
-        // saves context to persistent container
-        saveItems()
+//        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
         // selection dissapears slowly 
         tableView.deselectRow(at: indexPath, animated: true)
@@ -77,6 +79,18 @@ class ToDoListViewController: UITableViewController {
         // runs when user clicks "Add Item" on alert
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             
+            if let currentCategory = self.selectedCategory {
+                do {
+                    try self.realm.write {
+                        let newItem = Item()
+                        newItem.title = textField.text!
+                        currentCategory.items.append(newItem)
+                    }
+                } catch {
+                    print("Error saving new itesm, \(error)")
+                }
+            }
+            self.tableView.reloadData()
         }
         
         // create textfield in the alert
@@ -94,13 +108,11 @@ class ToDoListViewController: UITableViewController {
     
     
     // MARK: - Model Manipulation Methods
-    func saveItems() {
-      
-    }
     
     // Item.fetchRequest() - fetches all items
     func loadItems() {
-       
+        // get all the items from selected category and sort them aphabetecly
+        toDoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
     }
 }
 
