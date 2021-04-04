@@ -13,16 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        // shows where data is located
-        // print(Realm.Configuration.defaultConfiguration.fileURL)
-  
-        // creates a new "database" localy
-        do {
-            let realm = try Realm()
-        } catch {
-            print("Error initialising new realm, \(error)")
-        }
-        
         return true
     }
 
