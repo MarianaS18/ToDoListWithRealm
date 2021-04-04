@@ -59,8 +59,17 @@ class ToDoListViewController: UITableViewController {
     // works with selected cell
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        // checks done property
-//        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        if let item = toDoItems?[indexPath.row] {
+            do {
+                try realm.write {
+                    item.done = !item.done
+                }
+            } catch {
+                print("Error saving done status, \(error)")
+            }
+        }
+        
+        tableView.reloadData()
         
         // selection dissapears slowly 
         tableView.deselectRow(at: indexPath, animated: true)
