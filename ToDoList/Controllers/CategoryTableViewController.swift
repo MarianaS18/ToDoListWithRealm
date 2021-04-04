@@ -15,7 +15,7 @@ class CategoryTableViewController: UITableViewController {
     
     // Result: when you try to query you realm database, the results you get back is in form of a Results object
     // Results is an auto-updating container type
-    var categoryArray: Results<Category>?
+    var categories: Results<Category>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,14 +62,14 @@ class CategoryTableViewController: UITableViewController {
     
     // number of cells in the table view
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categoryArray?.count ?? 1
+        return categories?.count ?? 1
     }
     
     // create a cell and return it to the table view
     // method calls for every cell
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
-        cell.textLabel?.text = categoryArray?[indexPath.row].name ?? "No Categories Added yet"
+        cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories Added yet"
         return cell
     }
     
@@ -88,7 +88,7 @@ class CategoryTableViewController: UITableViewController {
         let destinationVC = segue.destination as! ToDoListViewController
         // we take the category that coresponds to the celected cell
         if let indexPath = tableView.indexPathForSelectedRow {
-            destinationVC.selectedCategory = categoryArray?[indexPath.row]
+            destinationVC.selectedCategory = categories?[indexPath.row]
         }
         
     }
@@ -98,7 +98,7 @@ class CategoryTableViewController: UITableViewController {
     
     func loadCategories() {
         // get all the items inside our realm that are of Category objects
-        categoryArray = realm.objects(Category.self)
+        categories = realm.objects(Category.self)
         
         tableView.reloadData()
     }
