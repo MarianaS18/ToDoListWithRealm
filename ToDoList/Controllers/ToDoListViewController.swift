@@ -59,6 +59,7 @@ class ToDoListViewController: UITableViewController {
     // works with selected cell
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        // update and save data
         if let item = toDoItems?[indexPath.row] {
             do {
                 try realm.write {
@@ -88,6 +89,7 @@ class ToDoListViewController: UITableViewController {
         // runs when user clicks "Add Item" on alert
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             
+            // create and save a new item
             if let currentCategory = self.selectedCategory {
                 do {
                     try self.realm.write {
