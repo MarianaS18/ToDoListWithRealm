@@ -46,6 +46,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="searchBar" destination="bib-5e-Xex" id="tc9-0j-GTq"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UOp-rH-uvh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -56,8 +59,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JJS-QE-1cA" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="vuZ-bb-p4b">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="vuZ-bb-p4b">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.50980392156862742" green="0.80000000000000004" blue="0.8666666666666667" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
@@ -98,7 +101,6 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="ToDo List" id="Xqv-sq-dtP">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="IRg-m3-Aeb">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="addButtonPressed:" destination="mb9-H6-hov" id="Ctp-Cf-u5v"/>
                             </connections>
