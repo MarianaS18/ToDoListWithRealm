@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
 class ToDoListViewController: SwipeTableViewController {
     
@@ -43,11 +44,19 @@ class ToDoListViewController: SwipeTableViewController {
         if let item = toDoItems?[indexPath.row] {
             cell.textLabel?.text = item.title
             
+            // change the color of cell
+            if let color = UIColor(hexString: selectedCategory!.color)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(toDoItems!.count)) {
+                cell.backgroundColor = color
+                // contrasting text
+                cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true)
+            }
+            
             // add or remove a checkmark to celected cell
             cell.accessoryType = item.done ? .checkmark : .none
         } else {
             cell.textLabel?.text = "No Items Added"
         }
+        
         
         
         return cell
@@ -96,7 +105,7 @@ class ToDoListViewController: SwipeTableViewController {
                         let newItem = Item()
                         newItem.title = textField.text!
                         newItem.dateCreated = Date()
-                            
+                        
                         currentCategory.items.append(newItem)
                     }
                 } catch {
