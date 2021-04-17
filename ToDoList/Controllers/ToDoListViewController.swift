@@ -95,6 +95,8 @@ class ToDoListViewController: UITableViewController {
                     try self.realm.write {
                         let newItem = Item()
                         newItem.title = textField.text!
+                        newItem.dateCreated = Date()
+                            
                         currentCategory.items.append(newItem)
                     }
                 } catch {
@@ -124,6 +126,7 @@ class ToDoListViewController: UITableViewController {
     func loadItems() {
         // get all the items from selected category and sort them aphabetecly
         toDoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
+        tableView.reloadData()
     }
 }
 
@@ -136,6 +139,12 @@ extension ToDoListViewController: UISearchBarDelegate {
     // and here we want to reload table view with the text, that user has tapped
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
+        // we take a list of items and filter them based on a text that user tapped and then we sort them by data of creating the item
+        toDoItems = toDoItems?
+            .filter("title CONTAINS[cd] %@", searchBar.text!)
+            .sorted(byKeyPath: "dateCreated", ascending: true)
+        
+        tableView.reloadData()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
