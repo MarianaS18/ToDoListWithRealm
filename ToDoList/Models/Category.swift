@@ -13,6 +13,7 @@ class Category: Object {
     // @objc dynamic need to be used always whan declaring properties in realm
     // @objc dynamic  helps realm to se changes
     @objc dynamic var name: String = ""
+    @objc dynamic var color: String = ""
     
     // relationships - each catecory can have a number of items
     let items = List<Item>()
