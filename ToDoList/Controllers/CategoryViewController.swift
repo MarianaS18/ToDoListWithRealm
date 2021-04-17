@@ -105,6 +105,7 @@ class CategoryViewController: UITableViewController {
     
     func save(category: Category) {
         do {
+            // commit the changes
             try realm.write {
                 realm.add(category)
             }
