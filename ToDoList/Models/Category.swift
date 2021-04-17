@@ -14,6 +14,6 @@ class Category: Object {
     // @objc dynamic  helps realm to se changes
     @objc dynamic var name: String = ""
     
-    // relationships
+    // relationships - each catecory can have a number of items
     let items = List<Item>()
 }
