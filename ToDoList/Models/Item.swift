@@ -14,7 +14,8 @@ class Item: Object {
     // @objc dynamic  helps realm to se changes
     @objc dynamic var title: String = ""
     @objc dynamic var done: Bool = false
+    @objc dynamic var dateCreated: Date?
     
-    // relationships
+    // relationships - links each items back to the parent category
     var parentCategory = LinkingObjects(fromType: Category.self, property: "items")
 }
