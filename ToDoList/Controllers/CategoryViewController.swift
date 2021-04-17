@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class CategoryTableViewController: UITableViewController {
+class CategoryViewController: UITableViewController {
     
     // creates a new "database" localy
     let realm = try! Realm()
