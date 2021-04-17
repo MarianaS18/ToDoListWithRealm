@@ -27,6 +27,13 @@ class CategoryViewController: SwipeTableViewController {
         loadCategories()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        guard let navBar = navigationController?.navigationBar else {
+            fatalError("Navigation controller does not exist")
+        }
+        
+        navBar.backgroundColor = UIColor(hexString: "1D9BF6")
+    }
 
     // MARK: - Add new category
     
@@ -77,8 +84,14 @@ class CategoryViewController: SwipeTableViewController {
             // modifies the cell by changing the text label
             cell.textLabel?.text = category.name
             
+            
+            guard let categoryColor = UIColor(hexString: category.color) else {
+                fatalError()
+            }
             // change the color of the cell
-            cell.backgroundColor = UIColor(hexString: category.color)
+            cell.backgroundColor = categoryColor
+            // change the color of the text
+            cell.textLabel?.textColor = ContrastColorOf(categoryColor, returnFlat: true)
         }
         
         return cell
